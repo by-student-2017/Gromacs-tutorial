@@ -1,6 +1,6 @@
 1. get "BMtMe_s.gro" and "BMtMe_s1.top" from convert_gromacs
 
-Energy minimization
+Energy minimization (1 cycle)
 2. gmx grompp -f minim.mdp -c BMtMe_s.gro -p BMtMe_s1.top -o em.tpr
 3. gmx mdrun -v -deffnm em
 4. gmx energy -f em.edr -o potential.xvg
@@ -8,6 +8,9 @@ Energy minimization
   (4  Potential, 0 End)
 5. xmgrace potential.xvg
 6. vmd em.gro em.trr
+
+---------------------------------------------------------------------------
+Test (failed)
 
 NVT (1st, 4 K -> 10 K)
 7. gmx grompp -f nvt1.mdp -c em.gro -r em.gro -p BMtMe_s1.top -o nvt1.tpr
