@@ -21,10 +21,10 @@
 15. gmx grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -o nvt.tpr -maxwarn 1
 16. gmx mdrun -deffnm nvt
 17. gedit npt.mdp
-18. gmx grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr
+18. gmx grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr -maxwarn 1
 19. gmx mdrun -deffnm npt
 20. gedit md.mdp
-21. gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -o md.tpr
+21. gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -o md.tpr -maxwarn 1
 22. gmx mdrun -deffnm md
 23. gmx trjconv -s md.tpr -f md.xtc -o md_noPBC.xtc -pbc mol -center
  Select a group: 1
