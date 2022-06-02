@@ -1,6 +1,10 @@
-1. get "BMtMe_s.gro" and "BMtMe_s1.top" from convert_gromacs
+VMD
+1. get "BMtMe_s.gro" from convert_gromacs
+2. gmx editconf -f BMtMe_s.gro -o BMtMe_s.pdb
+3. vmd BMtMe_s.pdb
 
 Energy minimization (1 cycle)
+1. get "BMtMe_s.gro" and "BMtMe_s1.top" from convert_gromacs
 2. gmx grompp -f minim.mdp -c BMtMe_s.gro -p BMtMe_s1.top -o em.tpr
 3. gmx mdrun -v -deffnm em
 4. gmx energy -f em.edr -o potential.xvg
