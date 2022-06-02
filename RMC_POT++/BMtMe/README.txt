@@ -7,7 +7,7 @@ Energy minimization (1 cycle)
   4 0
   (4  Potential, 0 End)
 5. xmgrace potential.xvg
-6. vmd em.gro em.trr
+6. vmd em.gro
 
 ---------------------------------------------------------------------------
 Test (failed)
