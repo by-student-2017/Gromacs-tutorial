@@ -1,0 +1,34 @@
+1. wget http://cmb.bio.uni-goettingen.de/pract/p7/files/setup-helix.tar.gz
+2. tar zxvf setup-helix.tar.gz
+3. cd setup-helix
+4. gmx pdb2gmx -ignh -f helix.pdb -o conf.pdb
+ 1
+ [ 1: AMBER99 protein, nucleic AMBER94 (Wang et al., J. Comp. Chem. 21, 1049-1074, 2000)]
+ 1
+ [ 1: TIP3P     TIP 3-point, recommended]
+5. gmx editconf -c -d 1.0 -f conf.pdb -o boxed.pdb
+6. gmx solvate -cs spc216.gro -cp boxed.pdb -p topol.top -o solved.pdb
+7. gedit neutral.mdp
+8. gmx grompp -f neutral.mdp -c solved.pdb -p topol.top -o neutral.tpr -maxwarn 1
+9. gmx genion -s neutral.tpr -o neutral.pdb -p topol.top -pname NA -nname CL -neutral
+ Select a group: 3
+ [Group     3 (            SOL) has 12051 elements]
+10. vmd neutral.pdb
+11. gedit minim.mdp
+12. gmx grompp -f minim.mdp -c neutral.pdb -p topol.top -o em.tpr -maxwarn 1
+13. gmx mdrun -v -deffnm em
+14. gedit nvt.mdp
+15. gmx grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -o nvt.tpr -maxwarn 1
+16. gmx mdrun -deffnm nvt
+17. gedit npt.mdp
+18. gmx grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr
+19. gmx mdrun -deffnm npt
+20. gedit md.mdp
+21. gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -o md.tpr
+22. gmx mdrun -deffnm md
+23. gmx trjconv -s md.tpr -f md.xtc -o md_noPBC.xtc -pbc mol -center
+ Select a group: 1
+ Selected 1: 'DNA'
+ Select a group: 0
+ Selected 0: 'System'
+24. vmd md.gro md_noPBC.xtc
