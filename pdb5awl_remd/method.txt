@@ -11,5 +11,12 @@ Temperature Replica Exchange Molecular Dynamics (T-REMD)
 ・Swap structures with multiple repl
 ・Repeat a short T-REMD simulation to adjust the temperature to the expected exchange probability (0.2 to 0.3).
 ・Please, use ”Temperature generator for REMD-simulations”
+・The minimum temperature may be set to the temperature of the system you want to finally analyze. The maximum temperature depends on what you want to look up. If you want to check the folding of the system, you need to keep it as high as possible. When investigating local fluctuations, structural changes, structural arrangements, etc., set the temperature to a certain level so that other parts do not break, or set the temperature to a certain level and put a constraint.
+・The paper by Sugita et al. Deales with structural sampling of Met-enkephalin in vacuum, with a temperature range of 200K to 700K. In the case of a system containing water molecules, there is also a description that "in the case of a typical peptide in an aqueous solution, the minimum temperature is about 300K and the maximum temperature is about 450K."
+・When running the replica tempering method, "if the sampling is done properly by REMD simulation with the right parameters (such as temperature range and number of replicas), all the same initial conformations, even if they start from different initial conformations. Even if you start from the conformation, the calculation result should be the same. "
+・Theoretically, there is no problem even if it is replaced once per step. However, in actual calculations he often does not work. After all, it contradicts the theory, but it is necessary to think about the mitigation process.
+・For programs that use temperature scaling, short exchange cycles are fine. On the other hand, in the case of a program that changes the temperature using a hot bath at the time of replacement, it is necessary to consider the relaxation process as well.
+・As a guide, it depends on the size of the system, but in most cases, the replacement is calculated every 2 ps (1000 steps). From experience, it is better to make it longer because it takes time to relax in a large system. There is no rule that this cycle must be used, but it does mean that you need enough steps to get the correct statistics.
+・Ostermeir et al., Referencing the work of Periole et al., State that replica exchanges should be performed at least ~ 1 ps apart in order to have sufficient mitigation time after replica exchanges.
 --------- --------- --------- --------- --------- 
-[GR1] http://www.scls.riken.jp/scruise/software/gromacs.html
+[GR1] http://www.scls.riken.jp/scruise/software/gromacs.html (Japanese)
