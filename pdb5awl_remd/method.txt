@@ -1,0 +1,24 @@
+0. sudo apt -y install gromacs-openmpi
+1. git clone https://github.com/by-student-2017/Gromacs-tutorial.git
+2. cd Gromacs-tutorial/pdb5awl_remd
+3. grep ref_t sim*/equil.mdp
+  (check "ref_t" settings)
+4. chmod +x grompp_equil.sh
+5. ./grompp_equil.sh
+6. ls -lF sim*/equil.tp
+? (check settings)
+7. mpirun mdrun_mpi -v -multidir sim[0123] -deffnm equil
+8. less sim0/equil.log
+? (less sim3/equil.log)
+9. diff sim0/equil.mdp sim0/sim.mdp
+10. chmod +x grompp_sim.sh
+11. ./grompp_sim.sh
+12. ls -lF sim*/sim.tpr
+? (check sim.tpr)
+13. mpirun mdrun_mpi -v -multidir sim[0123] -replex 100 -deffnm sim
+  (Usually, "-replex" is set to about 500 to 1000.)
+14. less sim0/sim.log
+  (less sim3/sim.log)
+
+Temperature generator for REMD-simulations
+http://www.scls.riken.jp/scruise/software/gromacs.html
