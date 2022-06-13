@@ -1,24 +1,56 @@
-0. sudo apt -y install gromacs-openmpi
-1. git clone https://github.com/by-student-2017/Gromacs-tutorial.git
-2. cd Gromacs-tutorial/pdb5awl_remd
-3. grep ref_t sim*/equil.mdp
-  (check "ref_t" settings)
-4. chmod +x grompp_equil.sh
-5. ./grompp_equil.sh
-6. ls -lF sim*/equil.tpr
-  (check settings)
-7.mpirun mdrun_mpi -v -multidir sim[01] -deffnm equil
-8. less sim0/equil.log
-  (less sim1/equil.log)
-9. diff sim0/equil.mdp sim0/sim.mdp
-10. chmod +x grompp_sim.sh
-11. ./grompp_sim.sh
-12. ls -lF sim*/sim.tpr
-  (check sim.tpr)
-13. mpirun mdrun_mpi -v -multidir sim[01] -replex 100 -deffnm sim
-  (Usually, "-replex" is set to about 500 to 1000.)
-14. less sim0/sim.log
-  (less sim1/sim.log)
-
-Temperature generator for REMD-simulations
-http://www.scls.riken.jp/scruise/software/gromacs.html
+Temperature Replica Exchange Molecular Dynamics (T-REMD)
+(https://github.com/by-student-2017/Gromacs-tutorial/tree/main/pdb5awl_remd)
+(After "19. gedit nvt.mdp" in Step 3 (https://www5.hp-ez.com/hp/calculations/page490).)
+(Previously, You have to do "sudo apt -y install gromacs-openmpi" to get /usr/bin/mdrun_mpi.)
+20. mkdir pre
+21. cp em.gro ./pre/
+22. cp topol.top ./pre/
+23. cp posre.itp ./pre/
+24. mkdir sim0
+25. cp nvt.mdp equil.mdp
+26. gedit equil.mdp
+----------
+ref_t = 298.00 298.00
+gen_temp = 298.00
+----------
+27. cp equil.mdp ./sim0/
+28. cp nvt.mdp sim.mdp
+29. gedit sim.dmp
+----------
+continuation = yes
+gen-vel = no
+----------
+30. cp -r sim0 sim1
+31. gedit ./sim1/equil.mdp
+----------
+ref_t = 299.57 299.57
+gen_temp = 299.57
+----------
+32. gedit ./sim1/sim.mdp
+----------
+ref_t = 299.57 299.57
+gen_temp = 299.57
+----------
+33. gedit grompp_equil.sh
+----------
+for dir in sim[01]
+do
+  cd $dir
+  gmx grompp -f equil.mdp -c ../pre/em.gro -r ../pre/em.gro -p ../pre/topol.top -o equil.tpr
+  cd ..
+done
+----------
+34. chmod +x grompp_equil.sh
+35. ./grompp_equil.sh
+36. mpirun mdrun_mpi -v -multidir sim[01] -deffnm equil
+37. gedit grompp_sim.sh
+----------
+for dir in sim[01]
+do
+  cd $dir
+  gmx grompp -f sim.mdp -c equil.gro -r equil.gro -t equil.cpt -p ../pre/topol.top -o sim.tpr
+  cd ..
+done
+----------
+38. chmod +x grompp_sim.sh
+39. mpirun mdrun_mpi -v -multidir sim[01] -replex 500 -deffnm sim
