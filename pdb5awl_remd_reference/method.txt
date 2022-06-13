@@ -5,7 +5,7 @@
   (check "ref_t" settings)
 4. chmod +x grompp_equil.sh
 5. ./grompp_equil.sh
-6. ls -lF sim*/equil.tp
+6. ls -lF sim*/equil.tpr
   (check settings)
 7.mpirun mdrun_mpi -v -multidir sim[01] -deffnm equil
 8. less sim0/equil.log
