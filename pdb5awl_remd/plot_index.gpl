@@ -1,0 +1,22 @@
+#!/usr/bin/gnuplot
+
+#set key left top
+#set key box linestyle 1
+
+set title "Simulation #0 (sim0)"
+
+set terminal win font "Arial,12"
+set xlabel "Time (ps)"
+set mxtics 5
+
+set ylabel "Replica #"
+set mytics 5
+set yrange[-1:4]
+
+plot "replica_index.xvg" u 1:2 w p pt 1 lc "red" t "sim0"
+
+pause -1
+
+set terminal png truecolor enhanced
+set out "plot_index.png"
+replot
