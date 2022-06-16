@@ -4,9 +4,19 @@ Temperature Replica Exchange Molecular Dynamics (T-REMD)
 1. git clone https://github.com/by-student-2017/Gromacs-tutorial.git
 2. cd Gromacs-tutorial/pdb5awl_remd
 3. sh grompp_equil.sh
-4. mpirun mdrun_mpi -v -multidir sim[01] -deffnm equil
+4. mpirun mdrun_mpi -v -multidir sim[0123] -deffnm equil
 5. sh /grompp_sim.sh
-6. mpirun mdrun_mpi -v -multidir sim[01] -replex 100 -deffnm sim
+6. mpirun mdrun_mpi -v -multidir sim[0123] -replex 100 -deffnm sim
+7. wget https://raw.githubusercontent.com/gromacs/gromacs/main/scripts/demux.pl
+8. chmod +x demux.pl
+9. ./demux.pl sim0/sim.log
+10. less replica_index.xvg
+11. gnuplot ./plot_index.gpl
+12. less replica_temp.xvg
+13. gnuplot ./plot_temp.gpl
+14. gmx trjcat -demux replica_index.xvg -f sim{0..3}/sim.trr -o {0..3}_trajout.xtc
+  (or gmx trjcat -demux replica_index.xvg -f sim{0..3}/sim.xtc -o {0..3}_trajout.xtc)
+15. ls -lF *.xtc
 --------- --------- --------- --------- --------- 
 ÅESwap structures with multiple repl
 ÅERepeat a short T-REMD simulation to adjust the temperature to the expected exchange probability (0.2 to 0.3).
